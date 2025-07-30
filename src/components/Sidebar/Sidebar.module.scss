@@ -1,0 +1,33 @@
+@import '../../styles/variables';
+
+.sidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $border;
+  margin-bottom: $spacing-md;
+
+  h2 {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    margin-bottom: $spacing-xs;
+    color: $text-primary;
+  }
+
+  p {
+    font-size: $font-size-sm;
+    color: $text-secondary;
+  }
+}
+
+.agentList {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+}

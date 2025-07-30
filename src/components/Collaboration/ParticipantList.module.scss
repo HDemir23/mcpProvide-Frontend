@@ -1,0 +1,107 @@
+@import '../../styles/variables';
+
+.participantList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.participant {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  background: var(--bg-secondary);
+  border-radius: 0.5rem;
+  transition: background 0.2s ease;
+
+  &:hover {
+    background: rgba(59, 130, 246, 0.05);
+  }
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: bold;
+  color: white;
+  flex-shrink: 0;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+
+  .name {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    margin-bottom: 0.125rem;
+  }
+
+  .email {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+.status {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.25rem;
+}
+
+.statusDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  
+  &.online {
+    background: #10B981;
+  }
+  
+  &.offline {
+    background: #6B7280;
+  }
+}
+
+.lastSeen {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  color: var(--text-secondary);
+
+  .emptyIcon {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.7;
+  }
+
+  p {
+    margin: 0;
+    font-size: 0.9rem;
+  }
+}

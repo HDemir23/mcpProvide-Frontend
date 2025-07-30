@@ -1,0 +1,47 @@
+@import '../../styles/variables';
+
+.layout {
+  display: grid;
+  grid-template-columns: 280px 1fr 320px;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sidebar {
+  background: $surface;
+  border-right: 1px solid $border;
+  overflow-y: auto;
+  padding: $spacing-md;
+}
+
+.canvas {
+  background: $background-light;
+  overflow: hidden;
+  position: relative;
+}
+
+.rightPanel {
+  background: $surface;
+  border-left: 1px solid $border;
+  overflow-y: auto;
+  padding: $spacing-md;
+}
+
+// Responsive design
+@media (max-width: 1024px) {
+  .layout {
+    grid-template-columns: 240px 1fr 280px;
+  }
+}
+
+@media (max-width: 768px) {
+  .layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+  }
+  
+  .sidebar, .rightPanel {
+    height: auto;
+    max-height: 200px;
+  }
+}
