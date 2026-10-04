@@ -1,6 +1,6 @@
 'use client'
 
-import React, { memo, useState, useCallback } from 'react'
+import React, { memo, useState, useCallback, useMemo } from 'react'
 import { Handle, Position, NodeProps, useReactFlow } from 'reactflow'
 import { DynamicNodeData, NodeFactory } from '../../lib/NodeFactory'
 import { HandleDefinition, PropertyDefinition } from '../../types/nodeTypes'
@@ -186,7 +186,7 @@ const renderPropertyInput = (prop: PropertyDefinition, value: any, onChange: (va
 }
 
 const DynamicNode = memo(({ data, selected, id }: NodeProps<DynamicNodeData>) => {
-  const { nodeType, properties, executionState } = data
+  const { nodeType, properties, executionState, onDelete, onSelect, isSelected } = data
   const [isExpanded, setIsExpanded] = useState(false)
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
   const { setNodes } = useReactFlow()
@@ -216,60 +216,94 @@ const DynamicNode = memo(({ data, selected, id }: NodeProps<DynamicNodeData>) =>
     )
   }, [id, nodeType.id, setNodes])
 
-  const hasErrors = Object.keys(validationErrors).length > 0
+  // Memoize expensive computations
+  const hasErrors = useMemo(() => Object.keys(validationErrors).length > 0, [validationErrors])
+  
+  const inputHandles = useMemo(() => 
+    nodeType.inputs.map((input: HandleDefinition) => (
+      <Handle
+        key={input.id}
+        type="target"
+        position={positionMap[input.position]}
+        id={input.id}
+        style={{ 
+          background: getHandleColor(input.dataType),
+          border: `2px solid ${getHandleColor(input.dataType)}`,
+          width: 12,
+          height: 12,
+        }}
+        title={`${input.name} (${input.dataType})`}
+      />
+    )), [nodeType.inputs]
+  )
+
+  const outputHandles = useMemo(() => 
+    nodeType.outputs.map((output: HandleDefinition) => (
+      <Handle
+        key={output.id}
+        type="source" 
+        position={positionMap[output.position]}
+        id={output.id}
+        style={{ 
+          background: getHandleColor(output.dataType),
+          border: `2px solid ${getHandleColor(output.dataType)}`,
+          width: 12,
+          height: 12,
+        }}
+        title={`${output.name} (${output.dataType})`}
+      />
+    )), [nodeType.outputs]
+  )
+
+  const nodeClassName = useMemo(() => 
+    `${styles.dynamicNode} ${styles[nodeType.category]} ${selected ? styles.selected : ''} ${hasErrors ? styles.hasErrors : ''}`,
+    [nodeType.category, selected, hasErrors]
+  )
 
   return (
     <div 
-      className={`${styles.dynamicNode} ${styles[nodeType.category]} ${selected ? styles.selected : ''} ${hasErrors ? styles.hasErrors : ''}`}
+      className={nodeClassName}
       style={{ borderColor: hasErrors ? '#EF4444' : nodeType.color }}
     >
       {/* Render input handles */}
-      {nodeType.inputs.map((input: HandleDefinition) => (
-        <Handle
-          key={input.id}
-          type="target"
-          position={positionMap[input.position]}
-          id={input.id}
-          style={{ 
-            background: getHandleColor(input.dataType),
-            border: `2px solid ${getHandleColor(input.dataType)}`,
-            width: 12,
-            height: 12,
-          }}
-          title={`${input.name} (${input.dataType})`}
-        />
-      ))}
+      {inputHandles}
       
       {/* Render output handles */}
-      {nodeType.outputs.map((output: HandleDefinition) => (
-        <Handle
-          key={output.id}
-          type="source" 
-          position={positionMap[output.position]}
-          id={output.id}
-          style={{ 
-            background: getHandleColor(output.dataType),
-            border: `2px solid ${getHandleColor(output.dataType)}`,
-            width: 12,
-            height: 12,
-          }}
-          title={`${output.name} (${output.dataType})`}
-        />
-      ))}
+      {outputHandles}
       
       {/* Node header */}
-      <div className={styles.header}>
+      <div className={styles.header} onClick={onSelect}>
         <span className={styles.icon}>{nodeType.icon}</span>
         <span className={styles.name}>{nodeType.name}</span>
         <ExecutionStatus status={executionState} />
-        {nodeType.properties.length > 0 && (
-          <button
-            className={styles.expandButton}
-            onClick={() => setIsExpanded(!isExpanded)}
-          >
-            {isExpanded ? '▼' : '▶'}
-          </button>
-        )}
+        <div className={styles.headerButtons}>
+          {nodeType.properties.length > 0 && (
+            <button
+              className={styles.expandButton}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsExpanded(!isExpanded);
+              }}
+              title="Expand/Collapse Properties"
+            >
+              {isExpanded ? '▼' : '▶'}
+            </button>
+          )}
+          {onDelete && (
+            <button
+              className={styles.deleteButton}
+              onClick={(e) => {
+                e.stopPropagation();
+                if (confirm(`Delete ${nodeType.name} node?`)) {
+                  onDelete();
+                }
+              }}
+              title="Delete Node"
+            >
+              ✕
+            </button>
+          )}
+        </div>
       </div>
       
       {/* Node description */}

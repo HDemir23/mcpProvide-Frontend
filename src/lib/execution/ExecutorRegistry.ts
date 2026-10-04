@@ -4,6 +4,8 @@ import { LLMChatExecutor } from './executors/LLMChatExecutor';
 import { IfConditionExecutor } from './executors/IfConditionExecutor';
 import { DelayExecutor } from './executors/DelayExecutor';
 import { JSONParserExecutor } from './executors/JSONParserExecutor';
+import { MCPExecutor } from './executors/MCPExecutor';
+import { AIAgentExecutor } from './executors/AIAgentExecutor';
 
 export class ExecutorRegistry {
   private static executors = new Map<string, NodeExecutor>();
@@ -36,6 +38,7 @@ export const registerBuiltInExecutors = () => {
   
   // AI Executors
   ExecutorRegistry.registerExecutor('llm_chat', new LLMChatExecutor());
+  ExecutorRegistry.registerExecutor('ai_agent', new AIAgentExecutor());
   
   // Condition Executors
   ExecutorRegistry.registerExecutor('if_condition', new IfConditionExecutor());
@@ -46,5 +49,8 @@ export const registerBuiltInExecutors = () => {
   // Data Executors
   ExecutorRegistry.registerExecutor('json_parser', new JSONParserExecutor());
   
+  // MCP Executors
+  ExecutorRegistry.registerExecutor('mcp_call', new MCPExecutor());
+
   console.log('✅ Built-in executors registered:', ExecutorRegistry.getRegisteredNodeTypes());
 };

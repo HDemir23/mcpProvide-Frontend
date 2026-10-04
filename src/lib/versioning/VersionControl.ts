@@ -267,7 +267,7 @@ export class WorkflowVersionControl {
     const newNodes = new Map(newSnapshot.nodes.map(n => [n.id, n]));
 
     // Added nodes
-    for (const [id, node] of newNodes) {
+    for (const [id, node] of Array.from(newNodes)) {
       if (!oldNodes.has(id)) {
         changes.push({
           type: 'node_added',
@@ -280,7 +280,7 @@ export class WorkflowVersionControl {
     }
 
     // Removed nodes
-    for (const [id, node] of oldNodes) {
+    for (const [id, node] of Array.from(oldNodes)) {
       if (!newNodes.has(id)) {
         changes.push({
           type: 'node_removed',
@@ -293,7 +293,7 @@ export class WorkflowVersionControl {
     }
 
     // Modified nodes
-    for (const [id, newNode] of newNodes) {
+    for (const [id, newNode] of Array.from(newNodes)) {
       const oldNode = oldNodes.get(id);
       if (oldNode && JSON.stringify(oldNode) !== JSON.stringify(newNode)) {
         changes.push({
@@ -311,7 +311,7 @@ export class WorkflowVersionControl {
     const oldEdges = new Map(oldSnapshot.edges.map(e => [e.id, e]));
     const newEdges = new Map(newSnapshot.edges.map(e => [e.id, e]));
 
-    for (const [id, edge] of newEdges) {
+    for (const [id, edge] of Array.from(newEdges)) {
       if (!oldEdges.has(id)) {
         changes.push({
           type: 'edge_added',
@@ -323,7 +323,7 @@ export class WorkflowVersionControl {
       }
     }
 
-    for (const [id, edge] of oldEdges) {
+    for (const [id, edge] of Array.from(oldEdges)) {
       if (!newEdges.has(id)) {
         changes.push({
           type: 'edge_removed',

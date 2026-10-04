@@ -7,61 +7,60 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.7);
+  background: rgba($nothing-black, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  padding: 2rem;
+  padding: $spacing-xl;
 }
 
 .modal {
-  background: var(--bg-primary);
-  border-radius: 1rem;
+  background: $background-dark;
+  border-radius: $radius-lg;
   width: 100%;
   max-width: 900px;
   max-height: 90vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
 
 .header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
-  border-bottom: 1px solid var(--border-light);
+  padding: $spacing-lg;
+  border-bottom: 1px solid $border-light;
 
   .titleSection {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: $spacing-md;
 
     .categoryIcon {
-      font-size: 2rem;
+      font-size: $font-size-xl;
     }
 
     h2 {
-      font-size: 1.5rem;
+      font-size: $font-size-xl;
       font-weight: 600;
       margin: 0;
-      color: var(--text-primary);
+      color: $text-primary;
     }
 
     .category {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      margin: 0.25rem 0 0 0;
+      font-size: $font-size-sm;
+      color: $text-secondary;
+      margin: $spacing-xs 0 0 0;
     }
 
     .featuredBadge {
-      background: linear-gradient(45deg, #F59E0B, #D97706);
-      color: white;
-      padding: 0.375rem 0.75rem;
-      border-radius: 1rem;
-      font-size: 0.8rem;
+      background: $accent;
+      color: $nothing-white;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $radius-lg;
+      font-size: $font-size-xs;
       font-weight: 600;
     }
   }
@@ -69,92 +68,92 @@
   .closeButton {
     background: none;
     border: none;
-    font-size: 1.5rem;
-    color: var(--text-secondary);
+    font-size: $font-size-xl;
+    color: $text-secondary;
     cursor: pointer;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
+    padding: $spacing-sm;
+    border-radius: $radius-md;
     transition: all 0.2s ease;
 
     &:hover {
-      background: var(--bg-secondary);
-      color: var(--text-primary);
+      background: $background-light;
+      color: $text-primary;
     }
   }
 }
 
 .tabs {
   display: flex;
-  border-bottom: 1px solid var(--border-light);
-  background: var(--bg-secondary);
+  border-bottom: 1px solid $border-light;
+  background: $background-light;
 }
 
 .tab {
-  padding: 1rem 1.5rem;
+  padding: $spacing-md $spacing-lg;
   border: none;
   background: transparent;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
+  color: $text-secondary;
+  font-size: $font-size-sm;
   font-weight: 500;
   cursor: pointer;
   border-bottom: 3px solid transparent;
   transition: all 0.2s ease;
 
   &:hover {
-    color: var(--text-primary);
-    background: rgba(255, 255, 255, 0.05);
+    color: $text-primary;
+    background: rgba($nothing-white, 0.05);
   }
 
   &.active {
-    color: var(--accent-primary);
-    border-bottom-color: var(--accent-primary);
-    background: var(--bg-primary);
+    color: $accent;
+    border-bottom-color: $accent;
+    background: $background-dark;
   }
 }
 
 .content {
   flex: 1;
-  padding: 1.5rem;
+  padding: $spacing-lg;
   overflow-y: auto;
 }
 
 .overview {
   .description {
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-xl;
 
     h3 {
-      font-size: 1.1rem;
+      font-size: $font-size-md;
       font-weight: 600;
-      margin: 0 0 0.75rem 0;
-      color: var(--text-primary);
+      margin: 0 0 $spacing-sm 0;
+      color: $text-primary;
     }
 
     p {
-      color: var(--text-secondary);
+      color: $text-secondary;
       line-height: 1.6;
       margin: 0;
     }
   }
 
   .metadata {
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-xl;
 
     .metadataGrid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      gap: $spacing-md;
     }
 
     .metadataItem {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.75rem;
-      background: var(--bg-secondary);
-      border-radius: 0.5rem;
+      padding: $spacing-sm;
+      background: $background-light;
+      border-radius: $radius-md;
 
       .label {
-        color: var(--text-secondary);
+        color: $text-secondary;
         font-weight: 500;
       }
 
@@ -165,49 +164,49 @@
   }
 
   .tags {
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-xl;
 
     h3 {
-      font-size: 1.1rem;
+      font-size: $font-size-md;
       font-weight: 600;
-      margin: 0 0 0.75rem 0;
-      color: var(--text-primary);
+      margin: 0 0 $spacing-sm 0;
+      color: $text-primary;
     }
 
     .tagList {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem;
+      gap: $spacing-sm;
     }
 
     .tag {
-      background: var(--accent-primary);
-      color: white;
-      padding: 0.375rem 0.75rem;
-      border-radius: 1rem;
-      font-size: 0.8rem;
+      background: $accent;
+      color: $nothing-white;
+      padding: $spacing-xs $spacing-sm;
+      border-radius: $radius-lg;
+      font-size: $font-size-xs;
       font-weight: 500;
     }
   }
 
   .stats {
     display: flex;
-    gap: 2rem;
-
+    gap: $spacing-xl;
+  
     .statItem {
       text-align: center;
-
+  
       .statValue {
         display: block;
-        font-size: 1.25rem;
+        font-size: $font-size-lg;
         font-weight: 600;
-        color: var(--text-primary);
-        margin-bottom: 0.25rem;
+        color: $text-primary;
+        margin-bottom: $spacing-xs;
       }
-
+  
       .statLabel {
-        font-size: 0.8rem;
-        color: var(--text-secondary);
+        font-size: $font-size-xs;
+        color: $text-secondary;
       }
     }
   }
@@ -215,98 +214,98 @@
 
 .workflow {
   .workflowOverview {
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-xl;
 
     h3 {
-      font-size: 1.1rem;
+      font-size: $font-size-md;
       font-weight: 600;
-      margin: 0 0 0.75rem 0;
-      color: var(--text-primary);
+      margin: 0 0 $spacing-sm 0;
+      color: $text-primary;
     }
 
     p {
-      color: var(--text-secondary);
+      color: $text-secondary;
       line-height: 1.6;
       margin: 0;
     }
   }
 
   .nodeList {
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-xl;
 
     h4 {
-      font-size: 1rem;
+      font-size: $font-size-md;
       font-weight: 600;
-      margin: 0 0 1rem 0;
-      color: var(--text-primary);
+      margin: 0 0 $spacing-md 0;
+      color: $text-primary;
     }
   }
 
   .nodeItem {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.75rem;
-    background: var(--bg-secondary);
-    border-radius: 0.5rem;
-    margin-bottom: 0.5rem;
+    gap: $spacing-sm;
+    padding: $spacing-sm;
+    background: $background-light;
+    border-radius: $radius-md;
+    margin-bottom: $spacing-sm;
 
     .nodeIcon {
-      font-size: 1.25rem;
+      font-size: $font-size-lg; // 1.25rem is 20px, matches $font-size-lg
     }
 
     .nodeInfo {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
-
+      gap: $spacing-xs;
+      
       .nodeName {
         font-weight: 500;
-        color: var(--text-primary);
+        color: $text-primary;
       }
 
       .nodeType {
-        font-size: 0.8rem;
-        color: var(--text-secondary);
+        font-size: $font-size-xs;
+        color: $text-secondary;
         text-transform: capitalize;
       }
     }
 
     .nodePosition {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
+      font-size: $font-size-xs;
+      color: $text-secondary;
       font-family: monospace;
     }
   }
 
   .connectionList {
     h4 {
-      font-size: 1rem;
+      font-size: $font-size-md;
       font-weight: 600;
-      margin: 0 0 1rem 0;
-      color: var(--text-primary);
+      margin: 0 0 $spacing-md 0;
+      color: $text-primary;
     }
   }
 
   .connectionItem {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    background: var(--bg-secondary);
-    border-radius: 0.375rem;
-    margin-bottom: 0.375rem;
-    font-size: 0.9rem;
+    gap: $spacing-sm;
+    padding: $spacing-sm $spacing-sm;
+    background: $background-light;
+    border-radius: $radius-sm;
+    margin-bottom: $spacing-xs;
+    font-size: $font-size-sm;
 
     .connectionIndex {
-      color: var(--accent-primary);
+      color: $accent;
       font-weight: 600;
-      min-width: 1.5rem;
+      min-width: $spacing-lg; // 1.5rem is 24px, matches $spacing-lg
     }
 
     .connectionFlow {
-      color: var(--text-secondary);
+      color: $text-secondary;
       font-family: monospace;
     }
   }
@@ -314,34 +313,34 @@
 
 .setup {
   .setupInstructions {
-    margin-bottom: 2rem;
+    margin-bottom: $spacing-xl;
 
     h3 {
-      font-size: 1.1rem;
+      font-size: $font-size-md;
       font-weight: 600;
-      margin: 0 0 1.5rem 0;
-      color: var(--text-primary);
+      margin: 0 0 $spacing-lg 0;
+      color: $text-primary;
     }
   }
 
   .stepList {
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: $spacing-lg;
   }
 
   .step {
     display: flex;
-    gap: 1rem;
+    gap: $spacing-md;
 
     .stepNumber {
       display: flex;
       align-items: center;
       justify-content: center;
-      width: 2rem;
-      height: 2rem;
-      background: var(--accent-primary);
-      color: white;
+      width: $spacing-xl;
+      height: $spacing-xl;
+      background: $accent;
+      color: $nothing-white;
       border-radius: 50%;
       font-weight: 600;
       flex-shrink: 0;
@@ -351,14 +350,14 @@
       flex: 1;
 
       h4 {
-        font-size: 1rem;
+        font-size: $font-size-md;
         font-weight: 600;
-        margin: 0 0 0.5rem 0;
-        color: var(--text-primary);
+        margin: 0 0 $spacing-sm 0;
+        color: $text-primary;
       }
 
       p {
-        color: var(--text-secondary);
+        color: $text-secondary;
         line-height: 1.5;
         margin: 0;
       }
@@ -367,10 +366,10 @@
 
   .requirements {
     h3 {
-      font-size: 1.1rem;
+      font-size: $font-size-md;
       font-weight: 600;
-      margin: 0 0 1rem 0;
-      color: var(--text-primary);
+      margin: 0 0 $spacing-md 0;
+      color: $text-primary;
     }
 
     .requirementList {
@@ -379,8 +378,8 @@
       margin: 0;
 
       li {
-        padding: 0.5rem 0;
-        color: var(--text-secondary);
+        padding: $spacing-sm 0;
+        color: $text-secondary;
         line-height: 1.5;
       }
     }
@@ -391,49 +390,49 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1.5rem;
-  border-top: 1px solid var(--border-light);
-  background: var(--bg-secondary);
+  padding: $spacing-lg;
+  border-top: 1px solid $border-light;
+  background: $background-light;
 
   .authorInfo {
-    color: var(--text-secondary);
-    font-size: 0.9rem;
+    color: $text-secondary;
+    font-size: $font-size-sm;
   }
 
   .actions {
     display: flex;
-    gap: 0.75rem;
+    gap: $spacing-sm;
   }
 
   .cancelButton,
   .importButton {
-    padding: 0.75rem 1.5rem;
-    border: 1px solid var(--border-light);
-    border-radius: 0.5rem;
-    font-size: 0.9rem;
+    padding: $spacing-sm $spacing-lg;
+    border: 1px solid $border-light;
+    border-radius: $radius-md;
+    font-size: $font-size-sm;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
   }
 
   .cancelButton {
-    background: var(--bg-primary);
-    color: var(--text-secondary);
+    background: $background-dark;
+    color: $text-secondary;
 
     &:hover {
-      color: var(--text-primary);
-      border-color: var(--text-secondary);
+      color: $text-primary;
+      border-color: $text-secondary;
     }
   }
 
   .importButton {
-    background: var(--accent-primary);
-    border-color: var(--accent-primary);
-    color: white;
+    background: $accent;
+    border-color: $accent;
+    color: $nothing-white;
 
     &:hover {
-      background: var(--accent-secondary);
-      border-color: var(--accent-secondary);
+      background: darken($accent, 10%);
+      border-color: darken($accent, 10%);
     }
   }
 }

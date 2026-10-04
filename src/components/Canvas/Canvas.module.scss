@@ -3,14 +3,15 @@
 .canvas {
   flex: 1;
   position: relative;
-  background: $background-light;
-  overflow: hidden;
+  background: $nothing-black;
+  overflow-x: hidden;
+  overflow-y: auto;
   height: 100%;
   width: 100%;
 }
 
 .reactflow {
-  background: $background-light !important;
+  background: $nothing-black !important;
 }
 
 .canvasContent {
@@ -25,7 +26,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   text-align: center;
-  color: $text-secondary;
+  color: $nothing-light-grey;
   user-select: none;
   pointer-events: none;
 }
@@ -39,7 +40,7 @@
 .emptyState h3 {
   font-size: $font-size-lg;
   margin-bottom: $spacing-xs;
-  color: $text-primary;
+  color: $nothing-white;
 }
 
 .emptyState p {
@@ -49,8 +50,8 @@
 
 .node {
   position: absolute;
-  background: $background-light;
-  border: 2px solid $border;
+  background: $nothing-dark-grey;
+  border: 2px solid $nothing-medium-grey;
   border-radius: $radius-md;
   padding: $spacing-sm;
   min-width: 120px;
@@ -60,11 +61,8 @@
   gap: $spacing-xs;
   cursor: move;
   transition: all 0.2s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
   &:hover {
-    border-color: $primary;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    border-color: $nothing-light-grey;
     transform: translateY(-1px);
   }
 }
@@ -81,7 +79,7 @@
 .nodeName {
   font-size: $font-size-sm;
   font-weight: 600;
-  color: $text-primary;
+  color: $nothing-white;
   text-align: center;
   line-height: 1.2;
 }
@@ -93,17 +91,17 @@
   display: flex;
   align-items: center;
   gap: $spacing-sm;
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba($nothing-dark-grey, 0.9);
   backdrop-filter: blur(8px);
   border-radius: $radius-md;
   padding: $spacing-sm;
-  border: 1px solid $border;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid $nothing-medium-grey;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .controlButton {
-  background: $background-light;
-  border: 1px solid $border;
+  background: $nothing-black;
+  border: 1px solid $nothing-medium-grey;
   border-radius: $radius-sm;
   padding: $spacing-xs;
   cursor: pointer;
@@ -116,15 +114,15 @@
   transition: all 0.2s ease;
 
   &:hover {
-    border-color: $primary;
-    background: $surface;
+    border-color: $nothing-light-grey;
+    background: $nothing-dark-grey;
   }
 }
 
 .zoomLevel {
   font-size: $font-size-sm;
   font-weight: 600;
-  color: $text-secondary;
+  color: $nothing-light-grey;
   min-width: 40px;
   text-align: center;
 }
@@ -137,23 +135,23 @@
 // Dark theme for ReactFlow components
 .controls {
   button {
-    background: $surface-elevated !important;
-    border-color: $border !important;
-    color: $text-primary !important;
-    
+    background: $nothing-medium-grey !important;
+    border-color: $nothing-medium-grey !important;
+    color: $nothing-white !important;
+
     &:hover {
-      background: $surface !important;
-      border-color: $border-light !important;
+      background: $nothing-dark-grey !important;
+      border-color: $nothing-light-grey !important;
     }
   }
 }
 
 .minimap {
-  background: $surface-elevated !important;
-  border: 1px solid $border !important;
-  
+  background: $nothing-medium-grey !important;
+  border: 1px solid $nothing-medium-grey !important;
+
   .react-flow__minimap-mask {
-    fill: rgba(0, 0, 0, 0.6) !important;
+    fill: rgba($nothing-black, 0.6) !important;
   }
 }
 

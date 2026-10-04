@@ -1,14 +1,24 @@
-// NothingOS Dark Theme Color Palette
-$primary: #ff6b35;
-$background-light: #000000;
-$background-dark: #0a0a0a;
-$surface: #1a1a1a;
-$surface-elevated: #2a2a2a;
-$text-primary: #ffffff;
-$text-secondary: #cccccc;
-$border: #333333;
-$border-light: #444444;
-$accent: #00d4ff;
+// NothingOS Theme Color Palette (Grey Contrast)
+$nothing-black: #1C1C1C;
+$nothing-dark-grey: #292929;
+$nothing-medium-grey: #404040;
+$nothing-light-grey: #A0A0A0;
+$nothing-white: #FFFFFF;
+$nothing-accent-red: #FF4D4D; // Example accent color, can be adjusted
+
+$primary: $nothing-light-grey;
+$background-light: $nothing-dark-grey;
+$background-dark: $nothing-black;
+$surface: $nothing-dark-grey;
+$surface-elevated: $nothing-medium-grey;
+$text-primary: $nothing-white;
+$text-secondary: $nothing-light-grey;
+$border: $nothing-medium-grey;
+$border-light: $nothing-light-grey;
+$accent: $nothing-accent-red;
+
+// Font Family
+$font-family-bitcount: "Bitcount Prop Single", monospace;
 
 // Typography
 $font-size-sm: 14px;
@@ -27,3 +37,42 @@ $spacing-xl: 32px;
 $radius-sm: 4px;
 $radius-md: 8px;
 $radius-lg: 12px;
+
+// Status Colors
+$status-ready: #00d4ff;
+
+// Additional Font Sizes
+$font-size-xs: 11px;
+$font-size-xxs: 10px;
+
+// Category Colors
+$category-trigger: #10B981;
+$category-action: #3B82F6;
+$category-condition: #EF4444;
+$category-ai: #F59E0B;
+$category-data: #8B5CF6;
+$category-utility: #6B7280;
+
+// Additional Text Color
+$text-tertiary: $nothing-medium-grey;
+
+// Additional Border Radii
+$radius-md-sm: 6px;
+$radius-xs: 3px;
+$radius-xxs: 2px;
+
+// Extra Large Font Size
+$font-size-xxl: 32px;
+
+// Touch Target Size
+$min-touch-target: 44px;
+
+// Pill Radius
+$radius-pill: 10px;
+
+// Extra Large Font Sizes
+$font-size-xxxl: 1.75rem;
+$font-size-xxxxl: 3rem;
+
+// Round Radius
+$radius-round: 1.5rem;

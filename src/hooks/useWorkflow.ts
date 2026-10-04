@@ -1,11 +1,15 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import { useWorkflowContext, WorkflowActionType } from '@/contexts/WorkflowContext'
 import { AgentType, Connection } from '@/types'
+import { WorkflowTemplate } from '@/types/templates'
+import { WorkflowVersionControl } from '@/lib/versioning/VersionControl'
+import { WorkflowMetadata } from '@/types/versioning'
 
 export function useWorkflow() {
   const { state, dispatch } = useWorkflowContext()
+  const versionControl = useMemo(() => new WorkflowVersionControl(), [])
 
   const addNode = useCallback((agent: AgentType, position: { x: number; y: number }) => {
     dispatch({
@@ -81,6 +85,15 @@ export function useWorkflow() {
     })
   }, [dispatch])
 
+  const loadTemplate = useCallback((template: WorkflowTemplate) => {
+    console.log('🔍 useWorkflow Debug - loadTemplate called with:', template);
+    console.log('🔍 useWorkflow Debug - Dispatching LOAD_TEMPLATE action...');
+    dispatch({
+      type: WorkflowActionType.LOAD_TEMPLATE,
+      payload: { template }
+    })
+  }, [dispatch])
+
   const undo = useCallback(() => {
     dispatch({ type: WorkflowActionType.UNDO })
   }, [dispatch])
@@ -99,6 +112,112 @@ export function useWorkflow() {
 
   const canUndo = state.history.past.length > 0
   const canRedo = state.history.future.length > 0
+
+  // Version control actions
+  const saveWorkflowVersion = useCallback(async (message: string, tags?: string[]) => {
+    try {
+      // Initialize workflow if not already done
+      const workflowId = 'current-workflow-id' // In a real app, this would be dynamic
+      const metadata: WorkflowMetadata = {
+        name: 'Current Workflow',
+        description: 'User workflow',
+        createdAt: new Date(),
+        updatedAt: new Date(),
+        settings: {
+          autoSave: true,
+          errorHandling: 'stop',
+          maxRetries: 3,
+          timeout: 30000,
+          variables: {}
+        }
+      }
+
+      await versionControl.initializeWorkflow(workflowId, metadata)
+
+      // Convert workflow nodes to ReactFlow nodes format
+      const reactFlowNodes = state.nodes.map(node => ({
+        id: node.id,
+        type: node.type,
+        position: node.position,
+        data: node.data
+      }))
+
+      // Convert connections to ReactFlow edges format
+      const reactFlowEdges = state.connections.map(conn => ({
+        id: conn.id,
+        source: conn.source,
+        target: conn.target,
+        sourceHandle: conn.sourceHandle,
+        targetHandle: conn.targetHandle
+      }))
+
+      const newVersion = await versionControl.saveVersion(
+        reactFlowNodes,
+        reactFlowEdges,
+        message,
+        metadata,
+        tags
+      )
+      
+      console.log('Workflow saved as new version:', newVersion)
+      return newVersion
+    } catch (error) {
+      console.error('Error saving workflow version:', error)
+      throw error
+    }
+  }, [state.nodes, state.connections, versionControl])
+
+  const restoreWorkflowVersion = useCallback(async (versionId: string) => {
+    try {
+      const restoredWorkflow = await versionControl.restoreVersion(versionId)
+      
+      // Convert ReactFlow nodes back to workflow nodes
+      const workflowNodes = restoredWorkflow.nodes.map(node => ({
+        id: node.id,
+        type: node.type || 'dynamic',
+        position: node.position,
+        data: node.data
+      }))
+
+      // Convert ReactFlow edges back to connections
+      const workflowConnections = restoredWorkflow.edges.map(edge => ({
+        id: edge.id,
+        source: edge.source,
+        target: edge.target,
+        sourceHandle: edge.sourceHandle || 'output',
+        targetHandle: edge.targetHandle || 'input'
+      }))
+
+      dispatch({
+        type: WorkflowActionType.LOAD_WORKFLOW,
+        payload: { nodes: workflowNodes, connections: workflowConnections }
+      })
+      
+      console.log('Workflow restored:', restoredWorkflow)
+      return restoredWorkflow
+    } catch (error) {
+      console.error('Error restoring workflow version:', error)
+      throw error
+    }
+  }, [dispatch, versionControl])
+
+  const getVersionHistory = useCallback(async () => {
+    try {
+      const workflowId = 'current-workflow-id'
+      const metadata: WorkflowMetadata = {
+        name: 'Current Workflow',
+        description: 'User workflow',
+        createdAt: new Date(),
+        updatedAt: new Date()
+      }
+      
+      await versionControl.initializeWorkflow(workflowId, metadata)
+      return await versionControl.getVersionHistory()
+    } catch (error) {
+      console.error('Error getting version history:', error)
+      return []
+    }
+  }, [versionControl])
 
   return {
     // State
@@ -124,7 +243,13 @@ export function useWorkflow() {
     updateViewport,
     clearWorkflow,
     loadWorkflow,
+    loadTemplate,
     undo,
-    redo
+    redo,
+
+    // Version control actions
+    saveWorkflowVersion,
+    restoreWorkflowVersion,
+    getVersionHistory
   }
 }

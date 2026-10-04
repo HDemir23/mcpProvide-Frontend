@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useMemo } from 'react'
 import { useDroppable } from '@dnd-kit/core'
 import ReactFlow, {
   MiniMap,
@@ -69,7 +69,7 @@ export default function Canvas({
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
 
   // Convert our nodes to ReactFlow format
-  const reactFlowNodes: Node[] = nodes.map(node => ({
+  const reactFlowNodes: Node[] = useMemo(() => nodes.map(node => ({
     id: node.id,
     type: node.type, // Use the type from the node itself (set by the reducer)
     position: node.position,
@@ -81,10 +81,10 @@ export default function Canvas({
     },
     selected: selectedNodeId === node.id,
     draggable: true,
-  }))
+  })), [nodes, selectedNodeId, onSelectNode, onDeleteNode])
 
   // Convert our connections to ReactFlow edges
-  const reactFlowEdges: Edge[] = connections.map(connection => ({
+  const reactFlowEdges: Edge[] = useMemo(() => connections.map(connection => ({
     id: connection.id,
     source: connection.source,
     target: connection.target,
@@ -101,20 +101,20 @@ export default function Canvas({
       onSelect: () => onSelectConnection?.(connection.id),
       onDelete: () => onDeleteConnection?.(connection.id),
     },
-  }))
+  })), [connections, selectedConnectionId, onSelectConnection, onDeleteConnection])
 
   const [rfNodes, setNodes, onNodesChange] = useNodesState(reactFlowNodes)
   const [rfEdges, setEdges, onEdgesChange] = useEdgesState(reactFlowEdges)
 
-  // Update ReactFlow nodes when props change
+  // Update ReactFlow nodes when memoized nodes change
   React.useEffect(() => {
     setNodes(reactFlowNodes)
-  }, [nodes, selectedNodeId, setNodes])
+  }, [reactFlowNodes, setNodes])
 
-  // Update ReactFlow edges when props change
+  // Update ReactFlow edges when memoized edges change
   React.useEffect(() => {
     setEdges(reactFlowEdges)
-  }, [connections, selectedConnectionId, setEdges])
+  }, [reactFlowEdges, setEdges])
 
   // Handle new connections with handle support
   const onConnect = useCallback((params: Connection) => {
@@ -156,6 +156,20 @@ export default function Canvas({
     onSelectNode?.('')
   }, [onSelectConnection, onSelectNode])
 
+  // Handle node deletion via keyboard
+  const onNodesDelete = useCallback((nodesToDelete: Node[]) => {
+    nodesToDelete.forEach(node => {
+      onDeleteNode?.(node.id)
+    })
+  }, [onDeleteNode])
+
+  // Handle edge deletion via keyboard  
+  const onEdgesDelete = useCallback((edgesToDelete: Edge[]) => {
+    edgesToDelete.forEach(edge => {
+      onDeleteConnection?.(edge.id)
+    })
+  }, [onDeleteConnection])
+
   const { setNodeRef: setDroppableRef, isOver } = useDroppable({
     id: 'canvas-droppable'
   })
@@ -172,14 +186,16 @@ export default function Canvas({
         onNodeDragStop={onNodeDragStop}
         onSelectionChange={onSelectionChange}
         onEdgeClick={onEdgeClick}
+        onNodesDelete={onNodesDelete}
+        onEdgesDelete={onEdgesDelete}
         nodeTypes={nodeTypes}
         edgeTypes={edgeTypes}
         connectionLineType={ConnectionLineType.SmoothStep}
         snapToGrid={true}
         snapGrid={[10, 10]}
         defaultViewport={{ x: 0, y: 0, zoom: 1 }}
-        minZoom={0.2}
-        maxZoom={2}
+        minZoom={0.1}
+        maxZoom={4}
         attributionPosition="bottom-left"
         panOnScroll={true}
         selectionOnDrag={false}

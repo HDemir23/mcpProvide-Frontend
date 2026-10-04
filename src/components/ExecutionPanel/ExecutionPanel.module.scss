@@ -1,9 +1,9 @@
 @import '../../styles/variables';
 
 .executionPanel {
-  background: rgba(var(--bg-secondary-rgb), 0.95);
-  border-radius: 12px;
-  padding: 16px;
+  background: rgba($background-light, 0.95);
+  border-radius: $radius-lg;
+  padding: $spacing-md;
   height: fit-content;
   max-height: 600px;
   overflow-y: auto;
@@ -14,55 +14,55 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid rgba(var(--border-color-rgb), 0.3);
+  margin-bottom: $spacing-md;
+  padding-bottom: ($spacing-sm + $spacing-xs);
+  border-bottom: 1px solid rgba($border, 0.3);
 
   h3 {
     margin: 0;
-    font-size: 16px;
-    color: var(--text-primary);
+    font-size: $font-size-md;
+    color: $text-primary;
   }
 
   .stats {
     display: flex;
-    gap: 12px;
-    font-size: 12px;
-    color: var(--text-secondary);
+    gap: ($spacing-sm + $spacing-xs);
+    font-size: $font-size-xs;
+    color: $text-secondary;
 
     .success {
-      color: #10B981;
+      color: $category-trigger;
     }
 
     .error {
-      color: #EF4444;
+      color: $nothing-accent-red;
     }
   }
 }
 
 .controls {
   display: flex;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: $spacing-sm;
+  margin-bottom: $spacing-md;
 }
 
 .executeButton {
   flex: 1;
-  padding: 10px 16px;
-  background: linear-gradient(135deg, #3B82F6, #1D4ED8);
-  color: white;
+  padding: ($spacing-sm + 2px) $spacing-md;
+  background: linear-gradient(135deg, $category-action, darken($category-action, 10%));
+  color: $nothing-white;
   border: none;
-  border-radius: 8px;
+  border-radius: $radius-md;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: $spacing-sm;
 
   &:hover:not(:disabled) {
-    background: linear-gradient(135deg, #2563EB, #1E40AF);
+    background: linear-gradient(135deg, darken($category-action, 10%), darken($category-action, 20%));
     transform: translateY(-1px);
   }
 
@@ -73,7 +73,7 @@
   }
 
   &.executing {
-    background: linear-gradient(135deg, #F59E0B, #D97706);
+    background: linear-gradient(135deg, $category-ai, darken($category-ai, 10%));
     
     .spinner {
       animation: spin 1s linear infinite;
@@ -82,93 +82,93 @@
 }
 
 .clearButton {
-  padding: 10px 16px;
-  background: rgba(var(--text-secondary-rgb), 0.1);
-  color: var(--text-secondary);
-  border: 1px solid rgba(var(--border-color-rgb), 0.3);
-  border-radius: 8px;
+  padding: ($spacing-sm + 2px) $spacing-md;
+  background: rgba($text-secondary, 0.1);
+  color: $text-secondary;
+  border: 1px solid rgba($border, 0.3);
+  border-radius: $radius-md;
   cursor: pointer;
   transition: all 0.2s ease;
 
   &:hover {
-    background: rgba(var(--text-secondary-rgb), 0.2);
-    color: var(--text-primary);
+    background: rgba($text-secondary, 0.2);
+    color: $text-primary;
   }
 }
 
 .errorMessage {
-  background: rgba(239, 68, 68, 0.1);
-  border: 1px solid rgba(239, 68, 68, 0.3);
-  border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 16px;
+  background: rgba($nothing-accent-red, 0.1);
+  border: 1px solid rgba($nothing-accent-red, 0.3);
+  border-radius: $radius-md;
+  padding: ($spacing-sm + $spacing-xs);
+  margin-bottom: $spacing-md;
 
   strong {
-    color: #EF4444;
+    color: $nothing-accent-red;
     display: block;
-    margin-bottom: 8px;
+    margin-bottom: $spacing-sm;
   }
 
   pre {
     margin: 0;
-    font-size: 12px;
-    color: var(--text-secondary);
+    font-size: $font-size-xs;
+    color: $text-secondary;
     white-space: pre-wrap;
     word-break: break-word;
   }
 }
 
 .results {
-  background: rgba(var(--bg-primary-rgb), 0.6);
-  border-radius: 8px;
-  padding: 12px;
+  background: rgba($background-dark, 0.6);
+  border-radius: $radius-md;
+  padding: ($spacing-sm + $spacing-xs);
 }
 
 .resultHeader {
-  margin-bottom: 16px;
+  margin-bottom: $spacing-md;
 
   h4 {
-    margin: 0 0 8px 0;
-    font-size: 14px;
+    margin: 0 0 $spacing-sm 0;
+    font-size: $font-size-sm;
 
     .success {
-      color: #10B981;
+      color: $category-trigger;
     }
 
     .error {
-      color: #EF4444;
+      color: $nothing-accent-red;
     }
   }
 
   .resultMeta {
     display: flex;
-    gap: 16px;
-    font-size: 11px;
-    color: var(--text-secondary);
+    gap: $spacing-md;
+    font-size: $font-size-xs;
+    color: $text-secondary;
   }
 }
 
 .nodeResults {
   h5 {
-    margin: 0 0 12px 0;
-    font-size: 13px;
-    color: var(--text-primary);
+    margin: 0 0 ($spacing-sm + $spacing-xs) 0;
+    font-size: $font-size-sm;
+    color: $text-primary;
   }
 }
 
 .nodeResult {
-  background: rgba(var(--bg-secondary-rgb), 0.6);
-  border-radius: 6px;
-  padding: 10px;
-  margin-bottom: 8px;
+  background: rgba($background-light, 0.6);
+  border-radius: $radius-md-sm;
+  padding: ($spacing-sm + 2px);
+  margin-bottom: $spacing-sm;
   border-left: 3px solid transparent;
 
   &.success {
-    border-left-color: #10B981;
+    border-left-color: $category-trigger;
   }
 
   &.error {
-    border-left-color: #EF4444;
+    border-left-color: $nothing-accent-red;
   }
 }
 
@@ -176,32 +176,32 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
+  margin-bottom: $spacing-sm;
 
   .nodeId {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    color: var(--text-primary);
+    font-size: $font-size-xs;
+    color: $text-primary;
     font-weight: 600;
   }
 
   .nodeDuration {
-    font-size: 10px;
-    color: var(--text-secondary);
+    font-size: $font-size-xxs;
+    color: $text-secondary;
   }
 
   .nodeStatus {
-    font-size: 12px;
+    font-size: $font-size-xs;
   }
 }
 
 .nodeError {
-  background: rgba(239, 68, 68, 0.1);
-  border-radius: 4px;
-  padding: 8px;
-  font-size: 11px;
-  color: #EF4444;
-  margin-bottom: 8px;
+  background: rgba($nothing-accent-red, 0.1);
+  border-radius: $radius-sm;
+  padding: $spacing-sm;
+  font-size: $font-size-xs;
+  color: $nothing-accent-red;
+  margin-bottom: $spacing-sm;
 }
 
 .nodeData {
@@ -209,17 +209,17 @@
     cursor: pointer;
 
     summary {
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
+      font-size: $font-size-xs;
+      color: $text-secondary;
+      margin-bottom: $spacing-sm;
     }
 
     pre {
-      background: rgba(var(--bg-primary-rgb), 0.8);
-      border-radius: 4px;
-      padding: 8px;
-      font-size: 10px;
-      color: var(--text-secondary);
+      background: rgba($background-dark, 0.8);
+      border-radius: $radius-sm;
+      padding: $spacing-sm;
+      font-size: $font-size-xxs;
+      color: $text-secondary;
       white-space: pre-wrap;
       word-break: break-word;
       max-height: 200px;
@@ -233,23 +233,23 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 40px 20px;
+  padding: $spacing-xl $spacing-lg;
   text-align: center;
-  color: var(--text-secondary);
+  color: $text-secondary;
 
   .emptyIcon {
-    font-size: 32px;
-    margin-bottom: 12px;
+    font-size: $font-size-xxl;
+    margin-bottom: ($spacing-sm + $spacing-xs);
     opacity: 0.5;
   }
 
   p {
-    margin: 0 0 4px 0;
-    font-size: 14px;
+    margin: 0 0 $spacing-xs 0;
+    font-size: $font-size-sm;
   }
 
   small {
-    font-size: 12px;
+    font-size: $font-size-xs;
     opacity: 0.7;
   }
 }
@@ -262,14 +262,14 @@
 // Dark mode adjustments
 @media (prefers-color-scheme: dark) {
   .executionPanel {
-    background: rgba(24, 24, 27, 0.95);
+    background: rgba($nothing-black, 0.95);
   }
 
   .results {
-    background: rgba(39, 39, 42, 0.6);
+    background: rgba($nothing-dark-grey, 0.6);
   }
 
   .nodeResult {
-    background: rgba(24, 24, 27, 0.6);
+    background: rgba($nothing-black, 0.6);
   }
 }

@@ -8,22 +8,20 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background: #ff4444;
-  color: white;
-  border: 2px solid white;
-  font-size: 12px;
+  background: $nothing-accent-red;
+  color: $nothing-white;
+  border: 2px solid $nothing-white;
+  font-size: $font-size-sm;
   font-weight: bold;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   transition: all 0.2s ease;
 
   &:hover {
-    background: #cc3333;
+    background: darken($nothing-accent-red, 10%);
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
   }
 
   &:active {

@@ -2,7 +2,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { WorkflowTemplate, TemplateCategory, TemplateFilter } from '../../types/templates';
-import { WORKFLOW_TEMPLATES, getFeaturedTemplates, getPopularTemplates, searchTemplates, getTemplateStats } from '../../lib/templates/TemplateData';
+import { WORKFLOW_TEMPLATES, getFeaturedTemplates, getPopularTemplates, searchTemplates, getTemplateStats, generateCustomModeConfig } from '../../lib/templates/TemplateData';
+import { generateWorkflowSummary } from '../../lib/templates/CustomModeConfig';
 import TemplateCard from './TemplateCard';
 import TemplatePreview from './TemplatePreview';
 import styles from './TemplateLibrary.module.scss';
@@ -26,7 +27,7 @@ export default function TemplateLibrary({ onSelectTemplate, onImportTemplate }: 
       case 'featured':
         return getFeaturedTemplates();
       case 'categories':
-        return selectedCategory 
+        return selectedCategory
           ? WORKFLOW_TEMPLATES.filter(template => template.category === selectedCategory)
           : WORKFLOW_TEMPLATES;
       case 'search':
@@ -46,6 +47,31 @@ export default function TemplateLibrary({ onSelectTemplate, onImportTemplate }: 
   const handleImportTemplate = (template: WorkflowTemplate) => {
     onImportTemplate?.(template);
     setShowPreview(false);
+  };
+
+  const handleGenerateCustomModes = (template: WorkflowTemplate) => {
+    try {
+      const yamlConfig = generateCustomModeConfig(template as any);
+      const summary = generateWorkflowSummary(template as any);
+      
+      // Create a downloadable file
+      const fullOutput = `${summary}\n\n---\n\n${yamlConfig}`;
+      const blob = new Blob([fullOutput], { type: 'text/yaml' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${template.id}_custom_modes.yaml`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+
+      console.log('Generated Custom Modes YAML:', yamlConfig);
+      console.log('Workflow Summary:', summary);
+    } catch (error) {
+      console.error('Failed to generate custom modes:', error);
+      alert('Failed to generate custom modes configuration.');
+    }
   };
 
   const getDifficultyColor = (difficulty: string) => {
@@ -129,8 +155,26 @@ export default function TemplateLibrary({ onSelectTemplate, onImportTemplate }: 
       {activeTab === 'featured' && (
         <div className={styles.featuredSection}>
           <div className={styles.sectionHeader}>
-            <h3>⭐ Featured Templates</h3>
+            <h3>Featured Templates</h3>
             <p>Hand-picked templates to get you started quickly</p>
+          </div>
+          <div className={styles.featuredGrid}>
+            {getFeaturedTemplates().slice(0, 3).map(template => (
+              <div
+                key={`featured-${template.id}`}
+                className={styles.featuredCard}
+                onClick={() => handlePreviewTemplate(template)}
+              >
+                <div className={styles.cardTitle}>{template.name}</div>
+                <div className={styles.cardDescription}>{template.description}</div>
+                <div className={styles.cardMeta}>
+                  <span className={styles.cardNodes}>{template.nodes.length} nodes</span>
+                  <span className={styles.cardComplexity} style={{ color: getDifficultyColor(template.difficulty) }}>
+                    {template.difficulty}
+                  </span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       )}
@@ -142,25 +186,16 @@ export default function TemplateLibrary({ onSelectTemplate, onImportTemplate }: 
               key={template.id}
               template={template}
               onPreview={() => handlePreviewTemplate(template)}
-              onSelect={() => onSelectTemplate?.(template)}
               onImport={() => onImportTemplate?.(template)}
+              onSelect={() => onSelectTemplate?.(template)}
+              onGenerateCustomModes={() => handleGenerateCustomModes(template)}
             />
           ))
         ) : (
           <div className={styles.emptyState}>
-            {activeTab === 'search' ? (
-              <>
-                <span className={styles.emptyIcon}>🔍</span>
-                <h3>No templates found</h3>
-                <p>Try different search terms or browse categories</p>
-              </>
-            ) : (
-              <>
-                <span className={styles.emptyIcon}>📦</span>
-                <h3>No templates available</h3>
-                <p>Check back later for new templates</p>
-              </>
-            )}
+            <span className={styles.emptyIcon}>😔</span>
+            <h3>No Templates Found</h3>
+            <p>Adjust your filters or search query.</p>
           </div>
         )}
       </div>

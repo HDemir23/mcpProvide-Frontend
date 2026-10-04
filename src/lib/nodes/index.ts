@@ -5,6 +5,7 @@ import { TriggerNodes } from './TriggerNodes';
 import { ActionNodes } from './ActionNodes';
 import { AINodes } from './AINodes';
 import { ConditionNodes } from './ConditionNodes';
+import { MCPNodes } from './MCPNodes';
 
 // Register all node types
 export const registerAllNodes = () => {
@@ -13,6 +14,7 @@ export const registerAllNodes = () => {
   NodeFactory.registerMultipleNodeTypes(ActionNodes);
   NodeFactory.registerMultipleNodeTypes(AINodes);
   NodeFactory.registerMultipleNodeTypes(ConditionNodes);
+  NodeFactory.registerMultipleNodeTypes(MCPNodes);
 
   // Register Data and Utility nodes if they exist
   try {
@@ -39,6 +41,7 @@ export * from './AINodes';
 export * from './ConditionNodes';
 export * from './DataNodes';
 export * from './UtilityNodes';
+export * from './MCPNodes';
 
 // Export factory
 export { NodeFactory } from '../NodeFactory';

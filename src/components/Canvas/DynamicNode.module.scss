@@ -3,66 +3,67 @@
 
 .dynamicNode {
   position: relative;
-  background: rgba(var(--bg-primary-rgb), 0.95);
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
-  padding: 12px;
+  background: rgba($background-dark, 0.95);
+  border: 2px solid $border;
+  border-radius: $radius-lg;
+  padding: 12px; // Keep 12px for now, as it's not a direct variable
   min-width: 180px;
-  max-width: 280px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 320px;
+  max-height: 400px;
+  display: flex;
+  flex-direction: column;
   backdrop-filter: blur(10px);
   transition: all 0.2s ease;
 
   &:hover {
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     transform: translateY(-1px);
   }
 
   &.selected {
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.3);
+    border-color: $accent;
+    box-shadow: 0 0 0 2px rgba($accent, 0.3);
   }
 
   // Category-based styling
   &.trigger {
-    border-left: 4px solid #10B981;
+    border-left: 4px solid $category-trigger;
     .header .icon {
-      color: #10B981;
+      color: $category-trigger;
     }
   }
 
   &.action {
-    border-left: 4px solid #3B82F6;
+    border-left: 4px solid $category-action;
     .header .icon {
-      color: #3B82F6;
+      color: $category-action;
     }
   }
 
   &.condition {
-    border-left: 4px solid #EF4444;
+    border-left: 4px solid $category-condition;
     .header .icon {
-      color: #EF4444;
+      color: $category-condition;
     }
   }
 
   &.ai {
-    border-left: 4px solid #F59E0B;
+    border-left: 4px solid $category-ai;
     .header .icon {
-      color: #F59E0B;
+      color: $category-ai;
     }
   }
 
   &.data {
-    border-left: 4px solid #8B5CF6;
+    border-left: 4px solid $category-data;
     .header .icon {
-      color: #8B5CF6;
+      color: $category-data;
     }
   }
 
   &.utility {
-    border-left: 4px solid #6B7280;
+    border-left: 4px solid $category-utility;
     .header .icon {
-      color: #6B7280;
+      color: $category-utility;
     }
   }
 }
@@ -71,11 +72,18 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 8px;
-  gap: 8px;
+  margin-bottom: $spacing-sm;
+  gap: $spacing-sm;
+  flex-shrink: 0;
+  cursor: pointer;
+  
+  &:hover {
+    background-color: rgba($accent, 0.05);
+    border-radius: $radius-sm;
+  }
 
   .icon {
-    font-size: 16px;
+    font-size: $font-size-md;
     line-height: 1;
     flex-shrink: 0;
     font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'Segoe UI', system-ui, sans-serif;
@@ -86,8 +94,8 @@
 
   .name {
     font-weight: 600;
-    font-size: 14px;
-    color: var(--text-primary);
+    font-size: $font-size-sm;
+    color: $text-primary;
     flex: 1;
     min-width: 0;
     overflow: hidden;
@@ -95,30 +103,50 @@
     white-space: nowrap;
   }
 
-  .expandButton {
+  .headerButtons {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+  
+  .expandButton,
+  .deleteButton {
     background: none;
     border: none;
-    color: var(--text-secondary);
+    color: $text-secondary;
     cursor: pointer;
-    padding: 2px;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
-
+    padding: $spacing-xs;
+    border-radius: $radius-sm;
+    transition: all 0.2s ease;
+    font-size: $font-size-xs;
+    line-height: 1;
+    
     &:hover {
-      background-color: rgba(var(--text-secondary-rgb), 0.1);
+      background-color: rgba($text-secondary, 0.1);
+    }
+  }
+  
+  .deleteButton {
+    color: $nothing-accent-red;
+    font-weight: bold;
+    
+    &:hover {
+      background-color: rgba($nothing-accent-red, 0.1);
+      color: darken($nothing-accent-red, 10%);
     }
   }
 }
 
 .description {
-  font-size: 12px;
-  color: var(--text-secondary);
-  margin-bottom: 8px;
+  font-size: $font-size-xs;
+  color: $text-secondary;
+  margin-bottom: $spacing-sm;
   line-height: 1.3;
+  flex-shrink: 0;
 }
 
 .executionStatus {
-  font-size: 12px;
+  font-size: $font-size-xs;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -129,13 +157,34 @@
 }
 
 .properties {
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px solid rgba(var(--border-color-rgb), 0.3);
+  margin-top: $spacing-sm;
+  padding-top: $spacing-sm;
+  border-top: 1px solid rgba($border, 0.3);
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  
+  &::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: rgba($background-light, 0.3);
+    border-radius: $radius-xxs;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: rgba($text-secondary, 0.4);
+    border-radius: $radius-xxs;
+    
+    &:hover {
+      background: rgba($text-secondary, 0.6);
+    }
+  }
 }
 
 .property {
-  margin-bottom: 8px;
+  margin-bottom: $spacing-sm;
 
   &:last-child {
     margin-bottom: 0;
@@ -144,9 +193,9 @@
 
 .propertyLabel {
   display: block;
-  font-size: 11px;
-  color: var(--text-secondary);
-  margin-bottom: 4px;
+  font-size: $font-size-xs;
+  color: $text-secondary;
+  margin-bottom: $spacing-xs;
   font-weight: 500;
 }
 
@@ -154,22 +203,22 @@
 .propertySelect,
 .propertyTextarea {
   width: 100%;
-  background: rgba(var(--bg-secondary-rgb), 0.8);
-  border: 1px solid rgba(var(--border-color-rgb), 0.3);
-  border-radius: 6px;
-  padding: 6px 8px;
-  font-size: 12px;
-  color: var(--text-primary);
+  background: rgba($background-light, 0.8);
+  border: 1px solid rgba($border, 0.3);
+  border-radius: $radius-md-sm;
+  padding: 6px $spacing-sm; // Keep 6px for vertical padding
+  font-size: $font-size-xs;
+  color: $text-primary;
   transition: border-color 0.2s ease;
 
   &:focus {
     outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 2px rgba(var(--accent-color-rgb), 0.2);
+    border-color: $accent;
+    box-shadow: 0 0 0 2px rgba($accent, 0.2);
   }
 
   &::placeholder {
-    color: var(--text-tertiary);
+    color: $text-tertiary;
   }
 }
 
@@ -185,13 +234,13 @@
 }
 
 .moreProperties {
-  font-size: 11px;
-  color: var(--text-secondary);
+  font-size: $font-size-xs;
+  color: $text-secondary;
   text-align: center;
-  padding: 4px;
-  background: rgba(var(--bg-secondary-rgb), 0.5);
-  border-radius: 4px;
-  margin-top: 8px;
+  padding: $spacing-xs;
+  background: rgba($background-light, 0.5);
+  border-radius: $radius-sm;
+  margin-top: $spacing-sm;
 }
 
 .handleLabels {
@@ -201,11 +250,11 @@
 
   .handleLabel {
     position: absolute;
-    font-size: 10px;
-    color: var(--text-tertiary);
-    background: rgba(var(--bg-primary-rgb), 0.9);
-    padding: 2px 4px;
-    border-radius: 3px;
+    font-size: $font-size-xxs;
+    color: $text-tertiary;
+    background: rgba($background-dark, 0.9);
+    padding: 2px $spacing-xs; // Keep 2px for vertical padding
+    border-radius: $radius-xs;
     white-space: nowrap;
     z-index: 10;
     
@@ -261,11 +310,11 @@
 // Dark mode adjustments
 @media (prefers-color-scheme: dark) {
   .dynamicNode {
-    background: rgba(24, 24, 27, 0.95);
-    border-color: #3f3f46;
+    background: rgba($nothing-black, 0.95);
+    border-color: $nothing-medium-grey;
     
     .handleLabels .handleLabel {
-      background: rgba(24, 24, 27, 0.9);
+      background: rgba($nothing-black, 0.9);
     }
   }
 }

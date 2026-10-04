@@ -19,6 +19,7 @@ export enum NodeSubType {
   EMAIL_SEND = 'email_send',
   DATABASE = 'database',
   FILE_OPERATION = 'file_operation',
+  MCP_CALL = 'mcp_call',
   
   // Conditions
   IF_CONDITION = 'if_condition',

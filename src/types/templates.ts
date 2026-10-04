@@ -1,5 +1,18 @@
 import { Node, Edge } from 'reactflow';
 
+export interface CustomModeConfig {
+  slug: string;
+  name: string;
+  roleDefinition: string;
+  customInstructions?: string;
+  groups: string[];
+  source?: string;
+}
+
+export interface MultiModeConfig {
+  modes: CustomModeConfig[];
+}
+
 export interface WorkflowTemplate {
   id: string;
   name: string;
@@ -18,6 +31,7 @@ export interface WorkflowTemplate {
   usageCount?: number;
   rating?: number;
   featured?: boolean;
+  customModeOutput?: CustomModeConfig | MultiModeConfig;
 }
 
 export enum TemplateCategory {

@@ -1,0 +1,249 @@
+@import './variables';
+
+// Flexbox utilities
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin flex-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-column-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+// Button mixins
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  border-radius: $radius-md;
+  font-family: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-decoration: none;
+  outline: none;
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background: $primary;
+  color: $nothing-white;
+  border: 1px solid $primary;
+
+  &:hover:not(:disabled) {
+    background: darken($primary, 10%);
+    border-color: darken($primary, 10%);
+    transform: translateY(-1px);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background: $surface;
+  color: $text-secondary;
+  border: 1px solid $border;
+
+  &:hover:not(:disabled) {
+    color: $text-primary;
+    border-color: $border-light;
+    background: $surface-elevated;
+  }
+}
+
+@mixin button-ghost {
+  @include button-base;
+  background: transparent;
+  color: $text-secondary;
+  border: 1px solid transparent;
+
+  &:hover:not(:disabled) {
+    color: $text-primary;
+    background: rgba($text-secondary, 0.1);
+  }
+}
+
+// Input mixins
+@mixin input-base {
+  width: 100%;
+  padding: $spacing-sm;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  font-size: $font-size-sm;
+  font-family: inherit;
+  background: $surface;
+  color: $text-primary;
+  transition: border-color 0.2s ease;
+
+  &:focus {
+    outline: none;
+    border-color: $primary;
+    box-shadow: 0 0 0 2px rgba($primary, 0.2);
+  }
+
+  &::placeholder {
+    color: $text-secondary;
+  }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+}
+
+// Card mixins
+@mixin card-base {
+  background: rgba($background-dark, 0.95);
+  border: 1px solid $border;
+  border-radius: $radius-lg;
+  backdrop-filter: blur(10px);
+  transition: all 0.2s ease;
+}
+
+@mixin card-hover {
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    border-color: rgba($border, 0.8);
+  }
+}
+
+// Typography mixins
+@mixin text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin text-clamp($lines: 2) {
+  display: -webkit-box;
+  -webkit-line-clamp: $lines;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// Scrollbar mixins
+@mixin custom-scrollbar($width: 8px) {
+  &::-webkit-scrollbar {
+    width: $width;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: rgba($surface, 0.3);
+    border-radius: $radius-sm;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: rgba($text-secondary, 0.4);
+    border-radius: $radius-sm;
+
+    &:hover {
+      background: rgba($text-secondary, 0.6);
+    }
+  }
+}
+
+// Animation mixins
+@mixin fade-in($duration: 0.3s) {
+  animation: fadeIn $duration ease-in-out;
+}
+
+@mixin slide-up($duration: 0.3s) {
+  animation: slideUp $duration ease-out;
+}
+
+@mixin pulse($duration: 2s) {
+  animation: pulse $duration infinite;
+}
+
+// Keyframes
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+// Responsive mixins
+@mixin mobile {
+  @media (max-width: 768px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media (max-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: 1025px) {
+    @content;
+  }
+}
+
+// Touch target mixin
+@mixin touch-target {
+  min-height: $min-touch-target;
+  min-width: $min-touch-target;
+}
+
+// Category color mixins
+@mixin category-border($category) {
+  @if $category == 'trigger' {
+    border-left: 4px solid $category-trigger;
+  } @else if $category == 'action' {
+    border-left: 4px solid $category-action;
+  } @else if $category == 'condition' {
+    border-left: 4px solid $category-condition;
+  } @else if $category == 'ai' {
+    border-left: 4px solid $category-ai;
+  } @else if $category == 'data' {
+    border-left: 4px solid $category-data;
+  } @else if $category == 'utility' {
+    border-left: 4px solid $category-utility;
+  }
+}
+
+// Glass morphism effect
+@mixin glass-morphism {
+  background: rgba($background-dark, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba($border, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+}

@@ -1,4 +1,5 @@
 import { NodeCategory, NodeSubType, NodeTypeDefinition } from '../../types/nodeTypes';
+import { MCPNodes } from './MCPNodes';
 
 export const HTTPRequestNode: NodeTypeDefinition = {
   id: 'http_request',
@@ -318,5 +319,6 @@ export const ActionNodes: NodeTypeDefinition[] = [
   HTTPRequestNode,
   EmailSendNode,
   DatabaseNode,
-  FileOperationNode
+  FileOperationNode,
+  ...MCPNodes
 ];

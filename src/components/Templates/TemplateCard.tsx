@@ -1,7 +1,8 @@
 'use client'
 
-import React from 'react';
+import React, { useState } from 'react';
 import { WorkflowTemplate } from '../../types/templates';
+import { generateCustomModeConfig, hasCustomModeOutput } from '../../lib/templates/TemplateData';
 import styles from './TemplateCard.module.scss';
 
 interface TemplateCardProps {
@@ -9,9 +10,12 @@ interface TemplateCardProps {
   onPreview: () => void;
   onSelect: () => void;
   onImport: () => void;
+  onGenerateCustomModes?: () => void;
 }
 
-export default function TemplateCard({ template, onPreview, onSelect, onImport }: TemplateCardProps) {
+export default function TemplateCard({ template, onPreview, onSelect, onImport, onGenerateCustomModes }: TemplateCardProps) {
+  const [showCustomModeOutput, setShowCustomModeOutput] = useState(false);
+
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
       case 'Beginner': return '#10B981';
@@ -41,6 +45,29 @@ export default function TemplateCard({ template, onPreview, onSelect, onImport }
       day: 'numeric',
       year: 'numeric'
     }).format(date);
+  };
+
+  const copyToClipboard = async (text: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      // You could add a toast notification here
+    } catch (err) {
+      // Fallback for older browsers
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      document.body.appendChild(textArea);
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+    }
+  };
+
+  const handleGenerateOutput = async () => {
+    if (hasCustomModeOutput(template)) {
+      const output = generateCustomModeConfig(template);
+      await copyToClipboard(output);
+      setShowCustomModeOutput(true);
+    }
   };
 
   return (
@@ -107,6 +134,34 @@ export default function TemplateCard({ template, onPreview, onSelect, onImport }
         </div>
       </div>
 
+      {hasCustomModeOutput(template) && (
+        <div className={styles.customModeSection}>
+          <div className={styles.customModeBadge}>
+            🎯 Custom Mode Generator
+          </div>
+          <p className={styles.customModeDescription}>
+            This template generates ready-to-use custom mode configurations
+          </p>
+          {showCustomModeOutput && (
+            <div className={styles.outputSection}>
+              <div className={styles.outputHeader}>
+                <span>Generated Configuration:</span>
+                <button 
+                  className={styles.copyButton}
+                  onClick={() => copyToClipboard(generateCustomModeConfig(template))}
+                  title="Copy to clipboard"
+                >
+                  📋
+                </button>
+              </div>
+              <pre className={styles.codeOutput}>
+                {generateCustomModeConfig(template)}
+              </pre>
+            </div>
+          )}
+        </div>
+      )}
+
       <div className={styles.actions}>
         <button 
           className={styles.previewButton}
@@ -114,12 +169,30 @@ export default function TemplateCard({ template, onPreview, onSelect, onImport }
         >
           👁️ Preview
         </button>
-        <button 
-          className={styles.importButton}
-          onClick={onImport}
-        >
-          📥 Import
-        </button>
+        {hasCustomModeOutput(template) ? (
+          <button 
+            className={styles.generateButton}
+            onClick={handleGenerateOutput}
+          >
+            🎯 Generate Config
+          </button>
+        ) : (
+          <button 
+            className={styles.importButton}
+            onClick={onImport}
+          >
+            📥 Import
+          </button>
+        )}
+        {onGenerateCustomModes && (
+          <button 
+            className={styles.yamlButton}
+            onClick={onGenerateCustomModes}
+            title="Generate Custom Modes YAML"
+          >
+            📄 YAML
+          </button>
+        )}
       </div>
 
       {template.author && (

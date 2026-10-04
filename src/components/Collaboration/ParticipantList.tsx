@@ -1,6 +1,7 @@
 'use client'
 
 import React from 'react';
+import Image from 'next/image';
 import { User } from '../../types/collaboration';
 import styles from './ParticipantList.module.scss';
 
@@ -44,7 +45,7 @@ export default function ParticipantList({ participants }: ParticipantListProps) 
             style={{ backgroundColor: participant.color }}
           >
             {participant.avatar ? (
-              <img src={participant.avatar} alt={participant.name} />
+              <Image src={participant.avatar} alt={participant.name} width={32} height={32} />
             ) : (
               participant.name.charAt(0).toUpperCase()
             )}

@@ -22,7 +22,11 @@ export default function Node({ node, isSelected, onSelect, onDelete }: NodeProps
     onDelete?.(node.id)
   }, [node.id, onDelete])
 
-  const hasConfiguration = node.data.config.taskDescription || node.data.config.systemPrompt
+  // Check if this is a dynamic node or legacy node
+  const isDynamicNode = node.data.nodeType && node.data.properties !== undefined
+  const hasConfiguration = isDynamicNode
+    ? Object.values(node.data.properties || {}).some(value => value && value !== '' && value !== '{}')
+    : (node.data.config?.taskDescription || node.data.config?.systemPrompt)
 
   return (
     <div 
@@ -35,10 +39,16 @@ export default function Node({ node, isSelected, onSelect, onDelete }: NodeProps
     >
       <div className={styles.header}>
         <div className={styles.agentInfo}>
-          <div className={styles.icon}>{node.data.agentType.icon}</div>
+          <div className={styles.icon}>
+            {isDynamicNode ? node.data.nodeType.icon : node.data.agentType?.icon}
+          </div>
           <div className={styles.details}>
-            <h4 className={styles.name}>{node.data.agentType.name}</h4>
-            <span className={styles.provider}>{node.data.agentType.provider}</span>
+            <h4 className={styles.name}>
+              {isDynamicNode ? node.data.nodeType.name : node.data.agentType?.name}
+            </h4>
+            <span className={styles.provider}>
+              {isDynamicNode ? node.data.nodeType.category : node.data.agentType?.provider}
+            </span>
           </div>
         </div>
         <button className={styles.deleteButton} onClick={handleDelete} title="Delete node">
@@ -48,11 +58,18 @@ export default function Node({ node, isSelected, onSelect, onDelete }: NodeProps
 
       {hasConfiguration && (
         <div className={styles.content}>
-          {node.data.config.taskDescription && (
+          {isDynamicNode ? (
             <p className={styles.task}>
-              {node.data.config.taskDescription.slice(0, 50)}
-              {node.data.config.taskDescription.length > 50 ? '...' : ''}
+              {/* Show first configured property for dynamic nodes */}
+              {Object.entries(node.data.properties || {}).find(([key, value]) => value && value !== '' && value !== '{}')?.join(': ').slice(0, 50)}...
             </p>
+          ) : (
+            node.data.config?.taskDescription && (
+              <p className={styles.task}>
+                {node.data.config.taskDescription.slice(0, 50)}
+                {node.data.config.taskDescription.length > 50 ? '...' : ''}
+              </p>
+            )
           )}
         </div>
       )}
@@ -63,7 +80,7 @@ export default function Node({ node, isSelected, onSelect, onDelete }: NodeProps
           <span>Ready to configure</span>
         </div>
         <div className={styles.cost}>
-          ${node.data.agentType.costPer1K}/1K
+          {isDynamicNode ? 'MCP' : `$${node.data.agentType?.costPer1K || 0}/1K`}
         </div>
       </div>
 

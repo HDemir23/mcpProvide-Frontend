@@ -73,7 +73,7 @@ export default function VersionComparator({ comparison, onClose }: VersionCompar
       return acc;
     }, {} as Record<string, number>);
 
-    return Object.entries(breakdown).sort(([,a], [,b]) => b - a);
+    return Object.entries(breakdown).sort(([,a], [,b]) => (b as number) - (a as number)) as [string, number][];
   };
 
   return (

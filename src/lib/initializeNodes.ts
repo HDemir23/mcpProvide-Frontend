@@ -5,6 +5,7 @@ import { AINodes } from './nodes/AINodes';
 import { ConditionNodes } from './nodes/ConditionNodes';
 import { DataNodes } from './nodes/DataNodes';
 import { UtilityNodes } from './nodes/UtilityNodes';
+import { MCPNodes } from './nodes/MCPNodes';
 
 // Initialize all node types when the app starts
 let isInitialized = false;
@@ -22,6 +23,7 @@ export const initializeNodeLibrary = () => {
     NodeFactory.registerMultipleNodeTypes(ConditionNodes);
     NodeFactory.registerMultipleNodeTypes(DataNodes);
     NodeFactory.registerMultipleNodeTypes(UtilityNodes);
+    NodeFactory.registerMultipleNodeTypes(MCPNodes);
     
     NodeFactory.markAsInitialized();
     isInitialized = true;

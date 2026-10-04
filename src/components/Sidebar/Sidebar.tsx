@@ -15,7 +15,7 @@ export default function Sidebar() {
         <h2>AI Agents</h2>
         <p>Drag agents to canvas</p>
       </div>
-      
+
       <div className={styles.agentList}>
         {agents.map((agent: AgentType) => (
           <DraggableAgentCard key={agent.id} agent={agent} />

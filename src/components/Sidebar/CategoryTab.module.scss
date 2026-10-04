@@ -7,17 +7,17 @@
   padding: 0;
   cursor: pointer;
   transition: all 0.2s ease;
-  border-bottom: 1px solid rgba(var(--border-color-rgb), 0.2);
+  border-bottom: 1px solid rgba($border, 0.2);
 
   &:hover {
-    background: rgba(var(--category-color, var(--accent-color)), 0.05);
+    background: rgba($accent, 0.05); // Fallback to accent if category color not provided
   }
 
   &.active {
-    background: rgba(var(--category-color, var(--accent-color)), 0.1);
+    background: rgba($accent, 0.1); // Fallback to accent if category color not provided
 
     .content {
-      color: var(--text-primary);
+      color: $text-primary;
       font-weight: 600;
     }
 
@@ -30,39 +30,39 @@
 .content {
   display: flex;
   align-items: center;
-  padding: 12px 20px;
-  gap: 12px;
-  color: var(--text-secondary);
+  padding: ($spacing-sm + $spacing-xs) $spacing-lg;
+  gap: ($spacing-sm + $spacing-xs);
+  color: $text-secondary;
   transition: all 0.2s ease;
   width: 100%;
 }
 
 .icon {
-  font-size: 16px;
+  font-size: $font-size-md;
   transition: transform 0.2s ease;
   flex-shrink: 0;
 }
 
 .name {
   flex: 1;
-  font-size: 14px;
+  font-size: $font-size-sm;
   text-align: left;
 }
 
 .count {
-  background: rgba(var(--text-secondary-rgb), 0.2);
-  color: var(--text-secondary);
-  font-size: 11px;
+  background: rgba($text-secondary, 0.2);
+  color: $text-secondary;
+  font-size: $font-size-xs;
   font-weight: 600;
-  padding: 2px 6px;
-  border-radius: 10px;
+  padding: 2px $spacing-sm;
+  border-radius: $radius-pill;
   min-width: 20px;
   text-align: center;
   transition: all 0.2s ease;
 
   .active & {
-    background: rgba(var(--category-color, var(--accent-color)), 0.2);
-    color: var(--category-color, var(--accent-color));
+    background: rgba($accent, 0.2); // Fallback to accent if category color not provided
+    color: $accent; // Fallback to accent if category color not provided
   }
 }
 
@@ -72,6 +72,6 @@
   top: 0;
   bottom: 0;
   width: 3px;
-  background: var(--category-color, var(--accent-color));
+  background: $accent; // Fallback to accent if category color not provided
   transition: all 0.2s ease;
 }

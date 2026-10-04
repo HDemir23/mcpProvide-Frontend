@@ -5,6 +5,9 @@ export interface DynamicNodeData {
   nodeType: NodeTypeDefinition;
   properties: Record<string, any>;
   executionState: 'idle' | 'running' | 'success' | 'error';
+  onDelete?: () => void;
+  onSelect?: () => void;
+  isSelected?: boolean;
 }
 
 export class NodeFactory {

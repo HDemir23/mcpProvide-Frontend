@@ -23,25 +23,22 @@
   width: 24px;
   height: 24px;
   
-  svg {
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
-  }
+
 }
 
 .cursorLabel {
   position: absolute;
-  top: 20px;
-  left: 12px;
+  top: ($spacing-md + $spacing-xs);
+  left: ($spacing-sm + $spacing-xs);
   display: flex;
   align-items: center;
-  gap: 0.375rem;
-  padding: 0.375rem 0.75rem;
-  border-radius: 1rem;
-  font-size: 0.75rem;
+  gap: $spacing-xs;
+  padding: $spacing-xs $spacing-sm;
+  border-radius: $radius-lg;
+  font-size: $font-size-xs;
   font-weight: 500;
-  color: white;
+  color: $nothing-white;
   white-space: nowrap;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   animation: fadeInUp 0.3s ease-out;
 }
 
@@ -49,22 +46,22 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba($nothing-white, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.65rem;
+  font-size: $font-size-xxs;
   font-weight: bold;
 }
 
 .userName {
-  font-size: 0.75rem;
+  font-size: $font-size-xs;
   font-weight: 500;
 }
 
 .onlineIndicator {
-  font-size: 0.6rem;
-  color: rgba(255, 255, 255, 0.9);
+  font-size: $font-size-xxs;
+  color: rgba($nothing-white, 0.9);
 }
 
 @keyframes fadeInUp {

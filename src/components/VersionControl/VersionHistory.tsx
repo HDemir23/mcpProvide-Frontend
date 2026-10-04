@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import { WorkflowVersion, VersionComparison } from '../../types/versioning';
 import { WorkflowVersionControl } from '../../lib/versioning/VersionControl';
 import VersionComparator from './VersionComparator';
@@ -20,13 +20,9 @@ export default function VersionHistory({ workflowId, onRestoreVersion, onCompare
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'all' | 'stable' | 'tagged'>('all');
 
-  const versionControl = new WorkflowVersionControl();
+  const versionControl = useMemo(() => new WorkflowVersionControl(), []);
 
-  useEffect(() => {
-    loadVersionHistory();
-  }, [workflowId, filter]);
-
-  const loadVersionHistory = async () => {
+  const loadVersionHistory = useCallback(async () => {
     try {
       setLoading(true);
       await versionControl.initializeWorkflow(workflowId, {
@@ -55,7 +51,11 @@ export default function VersionHistory({ workflowId, onRestoreVersion, onCompare
     } finally {
       setLoading(false);
     }
-  };
+  }, [workflowId, filter, versionControl]);
+
+  useEffect(() => {
+    loadVersionHistory();
+  }, [loadVersionHistory]);
 
   const handleVersionSelect = (versionId: string) => {
     if (selectedVersions.includes(versionId)) {
